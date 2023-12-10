@@ -4,7 +4,48 @@ import os, sys, time
 import shutil
 import random
 
-__version = 4
+__version = 5
+url = "https://pastebin.com/raw/uVHGMQNX"
+
+# Check for updates
+# Remote: https://github.com/TheFortex/LC-Mod-Installer
+# Version is stored in the first line of the readme
+
+def BooleanPrompt(prompt):
+	while True:
+		response = input(prompt+" (y/n): ")
+		if response.lower() == "y" or response.lower() == "ye" or response.lower() == "yes":
+			return True
+		elif response.lower() == "n" or response.lower() == "no":
+			return False
+		else:
+			print(random.choice(bad_input))
+
+try:
+	response = requests.get("https://raw.githubusercontent.com/TheFortex/LC-Mod-Installer/master/README.md")
+	if response.status_code == 200:
+		remote_version = int(response.iter_lines().__next__().decode("utf-8").split(" ")[1])
+		if remote_version > __version:
+			print(f"Update available. Version {remote_version} is available. You are on version {__version}.")
+			if BooleanPrompt("Do you want to update?"):
+				while True:
+					print("Updating...")
+					response = requests.get("https://raw.githubusercontent.com/TheFortex/LC-Mod-Installer/master/installmods.py")
+					if response.status_code == 200:
+						with open(__file__, "w") as f:
+							f.write(response.text)
+						print("Updated successfully. Restarting...")
+						time.sleep(3)
+						os.execl(sys.executable, sys.executable, *sys.argv)
+						break
+					else:
+						print(f"Failed to update. Status code: {response.status_code}")
+						if not BooleanPrompt("Retry?"): break
+except Exception as e:
+	print("Failed to check for updates: ")
+	print(e)
+	os.system("pause")
+
 
 global CurrentMenu
 
@@ -156,20 +197,12 @@ def InstallModsMenu():
 	if os.path.exists(f"{game_path}/BepInEx"):
 		print("Warning: There are already mods installed. It is recommended to uninstall them first.")
 		print("Do you want to continue? (y/n): ")
-		while True:
-			response = input()
-			if response.lower() == "y" or response.lower() == "ye" or response.lower() == "yes":
-				break
-			elif response.lower() == "n" or response.lower() == "no":
-				return MainMenu()
-			else:
-				print(random.choice(bad_input))
+		if not BooleanPrompt("Do you want to continue?"): return MainMenu()
 
 	Clear()
 
 	print("Fetching mod list...")
 
-	url = "https://pastebin.com/raw/uVHGMQNX"
 	response = requests.get(url)
 	menu = {
 		"..": ("Back", MainMenu),
