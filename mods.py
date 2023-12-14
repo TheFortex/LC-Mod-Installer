@@ -164,6 +164,9 @@ def UpdateList():
 	[Mod(*data) for data in modsdata if not mod_objs.get(data[1])]
 	mods_list = mod_objs.values()
 	try:
+		if not os.path.exists("./installed_mods.json"):
+			with open("./installed_mods.json", "w") as file:
+				file.write("{}")
 		with open("./installed_mods.json", "r") as file:
 			for name, files in json.loads(file.read()).items():
 				if mod_objs.get(name):
