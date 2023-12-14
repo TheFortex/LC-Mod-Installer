@@ -4,7 +4,10 @@ from globals import bad_input, __version
 game_path = "./"
 def SetGamePath(path="./"):
 	global game_path
-	game_path = path
+	game_path = path or "./"
+	return game_path
+
+def GetGamePath():
 	return game_path
 
 def Clear():
@@ -13,7 +16,7 @@ def Clear():
 	print("#"*10 + " TheFortex's Lethal Company Mod Installer " + "#"*10)
 	print("#"*62)
 	print(f"Version {__version}")
-	print("Installing to: " + game_path)
+	print("Installing to: " + os.path.realpath(game_path))
 	print()
 
 def BooleanPrompt(prompt):
@@ -25,3 +28,9 @@ def BooleanPrompt(prompt):
 			return False
 		else:
 			print(random.choice(bad_input))
+
+def Wrap(*funcs):
+	def wrapper():
+		for func, *args in funcs:
+			func(*args)
+	return wrapper

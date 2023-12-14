@@ -1,4 +1,4 @@
-__version = 5
+__version = 6
 bad_input = [
 	"You stupid or something?",
 	"You are actually retarded if you can't navigate this.",

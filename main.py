@@ -1,4 +1,4 @@
-import os, requests, sys, menu, shutil
+import os, requests, sys, shutil, menu, mods
 from defs import *
 from globals import __version
 
@@ -45,4 +45,6 @@ if os.path.exists(f"./TEMPEXTRACT"): shutil.rmtree("./TEMPEXTRACT")
 
 # Start
 
-if __name__ == "__main__": menu.Start()
+if __name__ == "__main__":
+	mods.UpdateList()
+	menu.Start()

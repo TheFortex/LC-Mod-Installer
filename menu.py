@@ -6,9 +6,9 @@ import mods
 game_path = SetGamePath()
 CurrentMenu = None
 
-def Menu(menuTitle, options):
+def Menu(self, menuTitle, options):
 	global CurrentMenu
-	CurrentMenu = (menuTitle, options)
+	CurrentMenu = self
 	while True:
 		Clear()
 		print(f"-- {menuTitle} --\n")
@@ -17,7 +17,8 @@ def Menu(menuTitle, options):
 		
 		response = input("\n")
 		if response in options.keys():
-			return options[response][1]()
+			title, callback = options[response]
+			return callback()
 		else:
 			menuTitle = random.choice(bad_input)
 
@@ -34,28 +35,30 @@ def SetGamePathMenu():
 		print()
 		game_path = SetGamePath(input("Paste the path to the game: "))
 
-def InstallModsMenu():
+def InstallModsMenu(Fetch=True):
+
+	# Clear()
+
+	# if os.path.exists(f"{game_path}/BepInEx"):
+	# 	print("Warning: There are already mods installed. It is recommended to uninstall them first.")
+	# 	if not BooleanPrompt("Do you want to continue?"): return MainMenu()
 
 	Clear()
 
-	if os.path.exists(f"{game_path}/BepInEx"):
-		print("Warning: There are already mods installed. It is recommended to uninstall them first.")
-		if not BooleanPrompt("Do you want to continue?"): return MainMenu()
-
-	Clear()
-
-	print("Fetching mod list...")
-	mods.UpdateList()
+	if Fetch:
+		print("Fetching mod list...")
+		mods.UpdateList()
 
 	menu = {
 		"..": ("Back", MainMenu),
-		"all": ("Install all mods", lambda: [callback() for mod, callback in menu if str(mod) != mod]),
-		"required": ("Install required mods", lambda: [callback() for mod, callback in menu if str(mod) != mod and mod.required])
+		"all": ("Install all mods", lambda: [callback() for mod, callback in menu.values() if str(mod) != mod]),
+		"required": ("Install required mods", lambda: [callback() for mod, callback in menu.values() if str(mod) != mod and mod.required])
 	}
+	
+	for i, mod in enumerate(mods.GetModsList()):
+		menu[str(i+1)] = (mod, (mod.Install))
 
-	for i, mod in mods.GetModsList(): menu[str(i)] = (mod, mod.Install)
-
-	Menu("Install Mods", menu)
+	Menu(Wrap((InstallModsMenu, False)), "Install Mods", menu)
 
 def UninstallModsMenu():
 	Clear()
@@ -63,17 +66,21 @@ def UninstallModsMenu():
 	print("Reading installed mods...")
 	menu = {
 		"..": ("Back", MainMenu),
-		"all": ("Uninstall all mods", lambda: [mods.UninstallAllMods, MainMenu()])
+		"all": ("Uninstall all mods", Wrap((mods.UninstallAllMods,), (MainMenu,)))
 	}
-	for name, files in mods.GetInstalledMods().items(): menu[name] = (name, mods.Uninstaller(name, files))
 
-	Menu("Uninstall Mods", menu)
+	i = 1
+	for name, mod in mods.GetInstalledMods().items():
+		menu[str(i)] = (f"{mod.name} {mod.version}", mod.Uninstall)
+		i += 1
+
+	Menu(UninstallModsMenu, "Uninstall Mods", menu)
 
 def Exit():
 	sys.exit()
 
 def MainMenu():
-	Menu("Main Menu", {
+	Menu(MainMenu, "Main Menu", {
 		"0": ("Set Game Path", SetGamePathMenu),
 		"1": ("Install Mods", InstallModsMenu),
 		"2": ("Uninstall Mods", UninstallModsMenu),
@@ -82,13 +89,14 @@ def MainMenu():
 
 def Start():
 	SetGamePathMenu()
+	MainMenu()
 	while True:
-		# try:
-			MainMenu()
-		# except KeyboardInterrupt:
-		# 	print("Exiting...")
-		# 	sys.exit()
-		# except Exception as e:
-		# 	print("An error occured: ")
-		# 	print(e)
-		# 	os.system("pause")
+		try:
+			(CurrentMenu or MainMenu)()
+		except KeyboardInterrupt:
+			print("Exiting...")
+			sys.exit()
+		except Exception as e:
+			print("An error occured:")
+			print(e)
+			os.system("pause")
