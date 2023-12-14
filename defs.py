@@ -1,0 +1,27 @@
+import os, random
+from globals import bad_input, __version
+
+game_path = "./"
+def SetGamePath(path="./"):
+	global game_path
+	game_path = path
+	return game_path
+
+def Clear():
+	os.system("cls")
+	print("#"*62)
+	print("#"*10 + " TheFortex's Lethal Company Mod Installer " + "#"*10)
+	print("#"*62)
+	print(f"Version {__version}")
+	print("Installing to: " + game_path)
+	print()
+
+def BooleanPrompt(prompt):
+	while True:
+		response = input(prompt+" (y/n): ")
+		if response.lower() == "y" or response.lower() == "ye" or response.lower() == "yes":
+			return True
+		elif response.lower() == "n" or response.lower() == "no":
+			return False
+		else:
+			print(random.choice(bad_input))
