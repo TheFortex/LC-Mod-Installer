@@ -3,3 +3,5 @@ build
 dist
 installed_mods.json
 __pycache__
+TEST
+.vscode
