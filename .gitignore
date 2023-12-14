@@ -1,3 +1,5 @@
 installmods.spec
 build
 dist
+installed_mods.json
+__pycache__
