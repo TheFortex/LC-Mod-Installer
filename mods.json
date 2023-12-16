@@ -1,6 +1,6 @@
 [
 	[true, "BepInEx", "5.4.22.0", "https://github.com/BepInEx/BepInEx/releases/download/v5.4.22/BepInEx_x64_5.4.22.0.zip", "", "", []],
-	[true, "Mimics", "2.0.0", "https://thunderstore.io/package/download/x753/Mimics/2.0.0/", "/BepInEx", "/BepInEx", ["BepInEx"]],
+	[true, "Mimics", "2.2.0", "https://thunderstore.io/package/download/x753/Mimics/2.2.0/", "/BepInEx", "/BepInEx", ["BepInEx"]],
 	[true, "Skinwalkers", "2.0.0", "https://thunderstore.io/package/download/RugbugRedfern/Skinwalkers/2.0.0/", "/BepInEx", "/BepInEx", ["BepInEx"]],
 	[true, "Terminal_TP", "1.0.1", "https://thunderstore.io/package/download/malco/Terminal_TP/1.0.1/", "/BepInEx", "/BepInEx", ["BepInEx"]],
 	[true, "LetMeLookDown", "1.0.1", "https://thunderstore.io/package/download/FlipMods/LetMeLookDown/1.0.1/", "/BepInEx", "/BepInEx", ["BepInEx"]],
@@ -8,7 +8,7 @@
 	[true, "AlwaysHearActiveWalkies", "1.4.2", "https://thunderstore.io/package/download/Suskitech/AlwaysHearActiveWalkies/1.4.2/", "/AlwaysHearWalkie.dll", "/BepInEx/plugins", ["BepInEx"]],
 	[true, "gamba_mod", "1.0.2", "https://thunderstore.io/package/download/alexsio/gamba_mod/1.0.2/", "", "/BepInEx/plugins", ["BepInEx"]],
 	[true, "ShipLobby", "1.0.2", "https://thunderstore.io/package/download/tinyhoot/ShipLobby/1.0.2/", "/plugins", "/BepInEx/plugins", ["BepInEx"]],
-	[true, "More_Emotes", "1.1.1", "https://thunderstore.io/package/download/Sligili/More_Emotes/1.1.1/", "/BepInEx", "/BepInEx", ["BepInEx"]],
+	[true, "More_Emotes", "1.2.1", "https://thunderstore.io/package/download/Sligili/More_Emotes/1.2.1/", "/BepInEx", "/BepInEx", ["BepInEx"]],
 
 	[true, "LC_API", "2.1.2", "https://thunderstore.io/package/download/2018/LC_API/2.1.2/", "", "/BepInEx/plugins", ["BepInEx"]],
 	[true, "BiggerLobby", "2.6.0", "https://thunderstore.io/package/download/bizzlemip/BiggerLobby/2.6.0/", "/BepInEx", "/BepInEx", ["BepInEx", "LC_API"]],
