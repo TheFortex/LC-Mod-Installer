@@ -11,7 +11,7 @@ while True:
 		assert response.status_code == 200, f"Response code: {response.status_code}"
 		remote_version = int(response.json()["name"].split(" ")[1])
 
-		def Update():
+		def Update(response):
 			download_url = response.json()["assets"][0]["browser_download_url"]
 			response = requests.get(download_url)
 			assert response.status_code == 200, f"Response code: {response.status_code}"
@@ -26,10 +26,12 @@ while True:
 			os.system("pause")
 			while True:
 				try:
-					Update()
+					Update(response)
 					break
-				except:
-					if not BooleanPrompt("Failed to update, retry?"): break
+				except Exception as e:
+					print("Failed to update:")
+					print(e)
+					if not BooleanPrompt("Retry?"): break
 		
 		break
 	except Exception as e:
