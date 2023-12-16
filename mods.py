@@ -102,7 +102,7 @@ class Mod:
 				os.remove(zip_file_path)
 				shutil.rmtree("./TEMPEXTRACT")
 
-				AppendInstalledMods(self.name, self)
+				AppendInstalledMods(f"{self.name} - {self.version}", self)
 				self.installed = True
 				
 				break
@@ -139,7 +139,7 @@ class Mod:
 
 		print(f"Uninstalling: {self}")
 		Uninstall(self.name, self.files)
-		PopInstalledMods(self.name)
+		PopInstalledMods(f"{self.name} - {self.version}")
 		self.installed = False
 
 # [Export functions]:
@@ -168,8 +168,9 @@ def UpdateList():
 			with open("./installed_mods.json", "w") as file:
 				file.write("{}")
 		with open("./installed_mods.json", "r") as file:
-			for name, files in json.loads(file.read()).items():
-				if mod_objs.get(name):
+			for id, files in json.loads(file.read()).items():
+				name, version = id.split(" - ")
+				if mod_objs.get(name) and mod_objs[name].version == version:
 					installed_mods[name] = mod_objs[name]
 					mod_objs[name].files = files
 					mod_objs[name].installed = True

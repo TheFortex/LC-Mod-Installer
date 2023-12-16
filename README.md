@@ -1,4 +1,4 @@
-Version 6
+Version 7
 
 # LC-Mod-Installer
 
