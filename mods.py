@@ -19,9 +19,8 @@ def MergeDicts(source, destination):
 				os.makedirs(dst_dir)
 
 			for file_ in files:
-				if file_ in ["icon.png", "manifest.json", "README.md"]: continue
-
-				os.path.split
+				if file_ in ["icon.png", "manifest.json", "README.md", "changelog.txt", "CHANGELOG.md"]: continue
+	
 				rtrn_files.append(os.path.join(dst_dir, file_))
 
 				src_file = os.path.join(src_dir, file_)
