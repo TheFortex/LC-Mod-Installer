@@ -16,6 +16,7 @@
 
 	[true, "HookGenPatcher", "0.0.5", "https://thunderstore.io/package/download/Evaisa/HookGenPatcher/0.0.5/", "", "/BepInEx", ["BepInEx"]],
 	[true, "LethalLib", "0.6.2", "https://thunderstore.io/package/download/Evaisa/LethalLib/0.6.2/", "/plugins", "/BepInEx/plugins", ["BepInEx", "HookGenPatcher"]],
+	[true, "OuijaBoard", "0.1.1", "https://thunderstore.io/package/download/Electric131/OuijaBoard/0.1.1/", "", "/BepInEx/plugins", ["BepInEx", "LethalLib"]],
 	[true, "Lategame_Upgrades", "2.5.1", "https://thunderstore.io/package/download/malco/Lategame_Upgrades/2.5.1/", "/BepInEx", "/BepInEx", ["BepInEx", "LethalLib", "HookGenPatcher"]],
 
 	[false, "ShipLoot", "1.0.0", "https://thunderstore.io/package/download/tinyhoot/ShipLoot/1.0.0/", "/plugins", "/BepInEx/plugins", ["BepInEx"]],
