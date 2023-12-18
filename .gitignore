@@ -6,3 +6,4 @@ __pycache__
 TEST
 .vscode
 main.spec
+installmods.exe.spec
