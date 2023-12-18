@@ -1,6 +1,8 @@
+import random, sys, os, winreg
+import tkinter as tk
+from tkinter import filedialog
 from defs import *
 from globals import bad_input
-import random, sys, os
 import mods
 
 game_path = SetGamePath()
@@ -23,17 +25,25 @@ def Menu(self, menuTitle, options):
 			menuTitle = random.choice(bad_input)
 
 def SetGamePathMenu():
-	os.system("cls")
-
 	global game_path
-	if not os.path.exists("./Lethal Company.exe"):
-		print("Note: To get the game directory, right click on the game in Steam, go to Manage > Browse local files")
-		print("then copy the path from the file explorer and paste it here.")
-		print("Example: C:/Program Files (x86)/Steam/steamapps/common/Lethal Company")
-		print()
-		print("Note: If you place this script in the game directory, you can skip this step")
-		print()
-		game_path = SetGamePath(input("Paste the path to the game: "))
+
+	os.system("cls")
+	print("Please browse to the game directory.")
+	print("Note: If you place this script in the game directory, you can skip this step")
+	print()
+
+	os.system("pause")
+	root = tk.Tk()
+	root.withdraw()
+
+	while True:
+		game_path = filedialog.askopenfilename(title = "Select game executable", filetypes = (("Lethal Company", "*.exe"), ("All files", "*.*"))).split("Lethal Company.exe")[0]
+		if os.path.exists(os.path.join(game_path, "Lethal Company.exe")):
+			break
+		else:
+			print("The selected directory does not contain the game.")
+			os.system("pause")
+	game_path = SetGamePath(game_path)
 
 def InstallModsMenu(Fetch=True):
 
@@ -88,7 +98,14 @@ def MainMenu():
 	})
 
 def Start():
-	SetGamePathMenu()
+	try:
+		# Computer\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Valve\Steam
+		game_path = winreg.QueryValueEx(winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\WOW6432Node\Valve\Steam"), "InstallPath")[0]
+		game_path = os.path.join(game_path, "steamapps", "common", "Lethal Company")
+		game_path = SetGamePath(game_path)
+	except:
+		SetGamePathMenu()
+	
 	MainMenu()
 	while True:
 		try:
