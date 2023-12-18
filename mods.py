@@ -150,7 +150,7 @@ def UpdateList():
 	while True:
 		try:
 			# pull from mods.json from github
-			request = requests.get("https://raw.githubusercontent.com/TheFortex/LC-Mod-Installer/master/mods.json")
+			request = requests.get("https://raw.githubusercontent.com/TheFortex/LC-Mod-Installer/main/mods.json")
 			assert request.status_code == 200, f"Response code: {request.status_code}"
 			modsdata = request.json()
 			break
