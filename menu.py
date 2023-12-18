@@ -102,6 +102,7 @@ def Start():
 		# Computer\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Valve\Steam
 		game_path = winreg.QueryValueEx(winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\WOW6432Node\Valve\Steam"), "InstallPath")[0]
 		game_path = os.path.join(game_path, "steamapps", "common", "Lethal Company")
+		assert os.path.exists(os.path.join(game_path, "Lethal Company.exe")), "Game not found"
 		game_path = SetGamePath(game_path)
 	except:
 		SetGamePathMenu()
