@@ -9,6 +9,7 @@
 	[true, "gamba_mod", "1.0.2", "https://thunderstore.io/package/download/alexsio/gamba_mod/1.0.2/", "", "/BepInEx/plugins", ["BepInEx"]],
 	[true, "ShipLobby", "1.0.2", "https://thunderstore.io/package/download/tinyhoot/ShipLobby/1.0.2/", "/plugins", "/BepInEx/plugins", ["BepInEx"]],
 	[true, "More_Emotes", "1.2.1", "https://thunderstore.io/package/download/Sligili/More_Emotes/1.2.1/", "/BepInEx", "/BepInEx", ["BepInEx"]],
+	[true, "Backrooms", "0.0.6", "https://thunderstore.io/package/download/Backrooms/Backrooms/0.0.6/", "", "/BepInEx", ["BepInEx"]],
 
 	[true, "LC_API", "2.1.2", "https://thunderstore.io/package/download/2018/LC_API/2.1.2/", "", "/BepInEx/plugins", ["BepInEx"]],
 	[true, "BiggerLobby", "2.6.0", "https://thunderstore.io/package/download/bizzlemip/BiggerLobby/2.6.0/", "/BepInEx", "/BepInEx", ["BepInEx", "LC_API"]],
