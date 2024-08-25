@@ -32,7 +32,7 @@ def MergeDicts(source, destination):
 
 def UpdateInstalledModsFile():
 	serializable = {name: mod.files for name, mod in installed_mods.items()}
-	with open("./installed_mods.json", "w") as file:
+	with open(GetGamePath() + "/installed_mods.json", "w") as file:
 		file.write(json.dumps(serializable))
 
 def AppendInstalledMods(name, mod):
@@ -164,12 +164,12 @@ def UpdateList():
 	mods_list = mod_objs.values()
 	try:
 		if not os.path.exists("./installed_mods.json"):
-			with open("./installed_mods.json", "w") as file:
+			with open(GetGamePath() + "/installed_mods.json", "w") as file:
 				file.write("{}")
-		with open("./installed_mods.json", "r") as file:
+		with open(GetGamePath() + "/installed_mods.json", "r") as file:
 			for id, files in json.loads(file.read()).items():
 				name, version = id.split(" - ")
-				if mod_objs.get(name) and mod_objs[name].version == version:
+				if name in mod_objs.keys() and mod_objs[name].version == version:
 					installed_mods[name] = mod_objs[name]
 					mod_objs[name].files = files
 					mod_objs[name].installed = True

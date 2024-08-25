@@ -22,9 +22,9 @@ def Clear():
 def BooleanPrompt(prompt):
 	while True:
 		response = input(prompt+" (y/n): ")
-		if response.lower() == "y" or response.lower() == "ye" or response.lower() == "yes":
+		if response.lower() in ["y", "ye", "yes"]:
 			return True
-		elif response.lower() == "n" or response.lower() == "no":
+		elif response.lower() in ["n", "no"]:
 			return False
 		else:
 			print(random.choice(bad_input))
