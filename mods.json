@@ -1,26 +1,7 @@
 [
-	[true, "BepInEx", "5.4.22.0", "https://github.com/BepInEx/BepInEx/releases/download/v5.4.22/BepInEx_x64_5.4.22.0.zip", "", "", []],
-	[true, "Mimics", "2.2.1", "https://thunderstore.io/package/download/x753/Mimics/2.2.1/", "/BepInEx", "/BepInEx", ["BepInEx"]],
-	[true, "Skinwalkers", "2.0.0", "https://thunderstore.io/package/download/RugbugRedfern/Skinwalkers/2.0.0/", "/BepInEx", "/BepInEx", ["BepInEx"]],
-	[true, "Terminal_TP", "1.0.1", "https://thunderstore.io/package/download/malco/Terminal_TP/1.0.1/", "/BepInEx", "/BepInEx", ["BepInEx"]],
-	[true, "LetMeLookDown", "1.0.1", "https://thunderstore.io/package/download/FlipMods/LetMeLookDown/1.0.1/", "/BepInEx", "/BepInEx", ["BepInEx"]],
-	[true, "ItemQuickSwitch", "1.1.0", "https://thunderstore.io/package/download/vasanex/ItemQuickSwitch/1.1.0/", "/BepInEx", "/BepInEx", ["BepInEx"]],
-	[true, "AlwaysHearActiveWalkies", "1.4.2", "https://thunderstore.io/package/download/Suskitech/AlwaysHearActiveWalkies/1.4.2/", "/AlwaysHearWalkie.dll", "/BepInEx/plugins", ["BepInEx"]],
-	[true, "gamba_mod", "1.0.2", "https://thunderstore.io/package/download/alexsio/gamba_mod/1.0.2/", "", "/BepInEx/plugins", ["BepInEx"]],
-	[true, "ShipLobby", "1.0.2", "https://thunderstore.io/package/download/tinyhoot/ShipLobby/1.0.2/", "/plugins", "/BepInEx/plugins", ["BepInEx"]],
-	[true, "More_Emotes", "1.2.1", "https://thunderstore.io/package/download/Sligili/More_Emotes/1.2.1/", "/BepInEx", "/BepInEx", ["BepInEx"]],
-	[true, "Backrooms", "0.0.6", "https://thunderstore.io/package/download/Backrooms/Backrooms/0.0.6/", "", "/BepInEx", ["BepInEx"]],
-
-	[true, "LC_API", "2.1.2", "https://thunderstore.io/package/download/2018/LC_API/2.1.2/", "", "/BepInEx/plugins", ["BepInEx"]],
-	[true, "BiggerLobby", "2.6.0", "https://thunderstore.io/package/download/bizzlemip/BiggerLobby/2.6.0/", "/BepInEx", "/BepInEx", ["BepInEx", "LC_API"]],
-
-	[true, "HookGenPatcher", "0.0.5", "https://thunderstore.io/package/download/Evaisa/HookGenPatcher/0.0.5/", "", "/BepInEx", ["BepInEx"]],
-	[true, "LethalLib", "0.6.2", "https://thunderstore.io/package/download/Evaisa/LethalLib/0.6.2/", "/plugins", "/BepInEx/plugins", ["BepInEx", "HookGenPatcher"]],
-	[true, "OuijaBoard", "1.5.0", "https://thunderstore.io/package/download/Electric131/OuijaBoard/1.5.0/", "", "/BepInEx/plugins", ["BepInEx", "LethalLib"]],
-	[true, "Lategame_Upgrades", "2.5.1", "https://thunderstore.io/package/download/malco/Lategame_Upgrades/2.5.1/", "/BepInEx", "/BepInEx", ["BepInEx", "LethalLib", "HookGenPatcher"]],
-
-	[false, "ShipLoot", "1.0.0", "https://thunderstore.io/package/download/tinyhoot/ShipLoot/1.0.0/", "/plugins", "/BepInEx/plugins", ["BepInEx"]],
-	[false, "MoreItems", "1.0.1", "https://thunderstore.io/package/download/Drakorle/MoreItems/1.0.1/", "/BepInEx", "/BepInEx", ["BepInEx"]],
-	[false, "SkipToMultiplayerMenu", "1.0.0", "https://thunderstore.io/package/download/FlipMods/SkipToMultiplayerMenu/1.0.0/", "/BepInEx", "/BepInEx", ["BepInEx"]],
-	[false, "GokuBracken", "1.1.0", "https://thunderstore.io/package/download/Vulf/GokuBracken/1.1.0/", "/GokuBracken.dll", "/BepInEx/plugins", ["BepInEx"]]
+	[true, "BepInEx", "5.4.23.2", "https://github.com/BepInEx/BepInEx/releases/download/v5.4.23.2/BepInEx_win_x64_5.4.23.2.zip", "", "", []],
+	[true, "Mimics", "2.6.4", "https://thunderstore.io/package/download/x753/Mimics/2.6.4/", "/BepInEx", "/BepInEx", ["BepInEx"]],
+	[true, "LateCompany", "1.0.18", "https://thunderstore.io/package/download/anormaltwig/LateCompany/1.0.18/", "/BepInEx", "/BepInEx", ["BepInEx"]],
+	[true, "MoreCompany", "1.10.1", "https://thunderstore.io/package/download/notnotnotswipez/MoreCompany/1.10.1/", "/BepInEx", "/BepInEx", ["BepInEx"]],
+	[true, "LethalCasino", "0.5.4", "https://thunderstore.io/package/download/mrgrm7/LethalCasino/0.5.4/", "", "/BepInEx/plugins", ["BepInEx"]]
 ]
