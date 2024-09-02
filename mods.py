@@ -7,20 +7,34 @@ installed_mods = {}
 # [Functions]:
 
 def MergeDicts(source, destination):
+	"""
+	Merge the contents of a source directory or file into a destination directory.
+	
+	Args:
+		source (str): The path to the source directory or file.
+		destination (str): The path to the destination directory.
+	
+	Returns:
+		list: A list of the merged file paths.
+	"""
 	rtrn_files = []
 
 	if os.path.isfile(source):
+		# If the source is a file, copy it to the destination directory
 		shutil.copy(source, destination)
-		rtrn_files.append(destination+source.split("/")[-1])
+		rtrn_files.append(destination + source.split("/")[-1])
 	else:
+		# If the source is a directory, recursively merge its contents into the destination directory
 		for src_dir, dirs, files in os.walk(source):
 			dst_dir = src_dir.replace(source, destination, 1)
 			if not os.path.exists(dst_dir):
 				os.makedirs(dst_dir)
 
 			for file_ in files:
-				if file_ in ["icon.png", "manifest.json", "README.md", "changelog.txt", "CHANGELOG.md"]: continue
-	
+				# Skip certain files that should not be merged
+				if file_ in ["icon.png", "manifest.json", "README.md", "changelog.txt", "CHANGELOG.md"]:
+					continue
+
 				rtrn_files.append(os.path.join(dst_dir, file_))
 
 				src_file = os.path.join(src_dir, file_)
@@ -31,33 +45,91 @@ def MergeDicts(source, destination):
 	return rtrn_files
 
 def UpdateInstalledModsFile():
+	"""
+	Update the installed_mods.json file with the current installed mods.
+
+	This function serializes the installed_mods dictionary and writes it to the installed_mods.json file.
+
+	Args:
+		None
+
+	Returns:
+		None
+	"""
 	serializable = {name: mod.files for name, mod in installed_mods.items()}
 	with open(GetGamePath() + "/installed_mods.json", "w") as file:
 		file.write(json.dumps(serializable))
 
 def AppendInstalledMods(name, mod):
+	"""
+	Append the installed mod to the installed_mods dictionary and update the installed_mods.json file.
+
+	Args:
+		name (str): The name of the installed mod.
+		mod (Mod): The Mod object representing the installed mod.
+
+	Returns:
+		None
+	"""
 	global installed_mods
 	installed_mods[name] = mod
 	UpdateInstalledModsFile()
 
 def PopInstalledMods(name):
+	"""
+	Remove the installed mod from the installed_mods dictionary and update the installed_mods.json file.
+
+	Args:
+		name (str): The name of the installed mod.
+
+	Returns:
+		None
+	"""
 	global installed_mods
 	installed_mods.pop(name)
 	UpdateInstalledModsFile()
 
 def Uninstall(name, files):
+	"""
+	Uninstall the mod by removing the specified files and directories.
+
+	Args:
+		name (str): The name of the mod.
+		files (list): A list of file paths to be removed.
+
+	Returns:
+		None
+	"""
 	for path in files:
 		if os.path.exists(path):
 			if os.path.isdir(path):
+				# If the path is a directory, remove it and all its contents
 				shutil.rmtree(path)
 			else:
+				# If the path is a file, remove it
 				os.remove(path)
 
 # [Class]:
 
 mod_objs = {}
+
 class Mod:
 	def __init__(self, required, name, version, url, extract_from, extract_to, dependencies):
+		"""
+		Initialize a Mod object with the given parameters.
+
+		Args:
+			required (bool): Whether the mod is required or not.
+			name (str): The name of the mod.
+			version (str): The version of the mod.
+			url (str): The URL to download the mod from.
+			extract_from (str): The path to extract the mod files from.
+			extract_to (str): The path to extract the mod files to.
+			dependencies (list): A list of mod names that this mod depends on.
+
+		Returns:
+			None
+		"""
 		self.required = required
 		self.name = name
 		self.version = version
@@ -70,17 +142,32 @@ class Mod:
 		mod_objs[name] = self
 
 	def __str__(self):
+		"""
+		Return a string representation of the Mod object.
+
+		The string representation includes whether the mod is installed or required, as well as the name and version of the mod.
+
+		Args:
+			None
+
+		Returns:
+			str: The string representation of the Mod object.
+		"""
 		return (self.installed and "[INSTALLED] " or "") + (self.required and "[REQUIRED] " or "") + f"{self.name} {self.version}"
 
 	def Install(self):
+		# Check if the mod is already installed
 		if self.installed:
 			print(f"Mod '{self}' is already installed")
 			os.system("pause")
 			return
-		
+
+		# Install dependencies recursively
 		for dependency in self.dependencies:
-			if not dependency.installed: dependency.Install()
-		
+			if not dependency.installed:
+				dependency.Install()
+
+		# Attempt to download and install the mod
 		for i in range(5):
 			try:
 				print(f"\nDownloading and installing: {self}")
@@ -89,21 +176,25 @@ class Mod:
 				assert response.status_code == 200, f"Response code: {response.status_code}"
 				zip_file_path = f"./TEMPDOWNLOAD.zip"
 
+				# Save the downloaded file
 				with open(zip_file_path, "wb") as zip_file:
 					zip_file.write(response.content)
 
+				# Extract the mod files
 				with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
 					print("Installing...")
 					zip_ref.extractall(path="./TEMPEXTRACT")
 					self.files = MergeDicts("./TEMPEXTRACT" + self.extract_from, GetGamePath() + self.extract_to)
-				
+
+				# Delete temporary files
 				print("Deleting temporary files...")
 				os.remove(zip_file_path)
 				shutil.rmtree("./TEMPEXTRACT")
 
+				# Append the installed mod to the installed_mods dictionary and mark it as installed
 				AppendInstalledMods(f"{self.name} - {self.version}", self)
 				self.installed = True
-				
+
 				break
 			except AssertionError as e:
 				print("Error downloading file: ")
@@ -118,24 +209,32 @@ class Mod:
 			continue
 		else:
 			print("Failed to download after 5 attempts")
-			if os.path.exists(f"./TEMPDOWNLOAD.zip"): os.remove(f"./TEMPDOWNLOAD.zip")
-			if os.path.exists(f"./TEMPEXTRACT"): shutil.rmtree("./TEMPEXTRACT")
+			# Clean up temporary files if download failed
+			if os.path.exists(f"./TEMPDOWNLOAD.zip"):
+				os.remove(f"./TEMPDOWNLOAD.zip")
+			if os.path.exists(f"./TEMPEXTRACT"):
+				shutil.rmtree("./TEMPEXTRACT")
 			os.system("pause")
 
 	def Uninstall(self):
+		# Check if any installed mods depend on this mod
 		for mod in installed_mods.copy().values():
-			if not mod in installed_mods.values(): continue
+			if not mod in installed_mods.values():
+				continue
 			if self in mod.dependencies:
+				# Prompt the user to confirm uninstallation if there are dependencies
 				if BooleanPrompt(f"Mod '{mod.name}' depends on '{self.name}', uninstall anyway?"):
 					mod.Uninstall()
 				else:
 					return
 
+		# Check if the mod is not installed
 		if not self.installed:
 			print(f"Mod '{self}' is not installed")
 			os.system("pause")
 			return
 
+		# Uninstall the mod
 		print(f"Uninstalling: {self}")
 		Uninstall(self.name, self.files)
 		PopInstalledMods(f"{self.name} - {self.version}")
@@ -148,7 +247,7 @@ def UpdateList():
 
 	while True:
 		try:
-			# pull from mods.json from github
+			# Pull mods.json from GitHub
 			request = requests.get("https://raw.githubusercontent.com/TheFortex/LC-Mod-Installer/main/mods.json")
 			assert request.status_code == 200, f"Response code: {request.status_code}"
 			modsdata = request.json()
@@ -160,20 +259,29 @@ def UpdateList():
 			print()
 			time.sleep(3)
 
+	# Create Mod objects from modsdata and add them to mod_objs if they don't already exist
 	[Mod(*data) for data in modsdata if not mod_objs.get(data[1])]
+
+	# Update mods_list with the values from mod_objs
 	mods_list = mod_objs.values()
+
 	try:
+		# Check if installed_mods.json exists, if not create it
 		if not os.path.exists("./installed_mods.json"):
 			with open(GetGamePath() + "/installed_mods.json", "w") as file:
 				file.write("{}")
+
+		# Load installed mods from installed_mods.json
 		with open(GetGamePath() + "/installed_mods.json", "r") as file:
 			for id, files in json.loads(file.read()).items():
 				name, version = id.split(" - ")
 				if name in mod_objs.keys() and mod_objs[name].version == version:
+					# If the mod is in mod_objs and has the same version, mark it as installed
 					installed_mods[name] = mod_objs[name]
 					mod_objs[name].files = files
 					mod_objs[name].installed = True
 				else:
+					# If the mod is not in mod_objs or has a different version, uninstall it
 					Uninstall(name, files)
 					installed_mods.pop(name)
 	except Exception as e:
@@ -181,33 +289,84 @@ def UpdateList():
 		print(e)
 		os.system("pause")
 
+		# If there was an error loading installed mods, reset installed_mods
 		installed_mods = {}
 		pass
 
 def UninstallAllMods():
+	"""
+	Uninstall all mods.
+
+	This function removes all mod-related files and directories from the game directory.
+
+	Args:
+		None
+
+	Returns:
+		None
+	"""
 	global installed_mods
 
 	Clear()
 	print("Uninstalling all mods...")
 
-	if os.path.exists(f"{GetGamePath()}/BepInEx"): os.system(f"rmdir /s /q \"{GetGamePath()}/BepInEx\"")
-	if os.path.exists(f"{GetGamePath()}/changelog.txt"): os.remove(f"{GetGamePath()}/changelog.txt")
-	if os.path.exists(f"{GetGamePath()}/icon.png"): os.remove(f"{GetGamePath()}/icon.png")
-	if os.path.exists(f"{GetGamePath()}/manifest.json"): os.remove(f"{GetGamePath()}/manifest.json")
-	if os.path.exists(f"{GetGamePath()}/README.md"): os.remove(f"{GetGamePath()}/README.md")
-	if os.path.exists(f"{GetGamePath()}/doorstop_config.ini"): os.remove(f"{GetGamePath()}/doorstop_config.ini")
-	if os.path.exists(f"{GetGamePath()}/winhttp.dll"): os.remove(f"{GetGamePath()}/winhttp.dll")
-	if os.path.exists(f"{GetGamePath()}/winhttp_x64.dll"): os.remove(f"{GetGamePath()}/winhttp_x64.dll")
-	if os.path.exists(f"{GetGamePath()}/winhttp_x86.dll"): os.remove(f"{GetGamePath()}/winhttp_x86.dll")
-	if os.path.exists(f"{GetGamePath()}/winhttp_x64.dll.config"): os.remove(f"{GetGamePath()}/winhttp_x64.dll.config")
-	if os.path.exists(f"{GetGamePath()}/winhttp_x86.dll.config"): os.remove(f"{GetGamePath()}/winhttp_x86.dll.config")
+	# Remove BepInEx directory if it exists
+	if os.path.exists(f"{GetGamePath()}/BepInEx"):
+		os.system(f"rmdir /s /q \"{GetGamePath()}/BepInEx\"")
 
-	global installed_mods
+	# Remove specific files if they exist
+	if os.path.exists(f"{GetGamePath()}/changelog.txt"):
+		os.remove(f"{GetGamePath()}/changelog.txt")
+	if os.path.exists(f"{GetGamePath()}/icon.png"):
+		os.remove(f"{GetGamePath()}/icon.png")
+	if os.path.exists(f"{GetGamePath()}/manifest.json"):
+		os.remove(f"{GetGamePath()}/manifest.json")
+	if os.path.exists(f"{GetGamePath()}/README.md"):
+		os.remove(f"{GetGamePath()}/README.md")
+	if os.path.exists(f"{GetGamePath()}/doorstop_config.ini"):
+		os.remove(f"{GetGamePath()}/doorstop_config.ini")
+	if os.path.exists(f"{GetGamePath()}/winhttp.dll"):
+		os.remove(f"{GetGamePath()}/winhttp.dll")
+	if os.path.exists(f"{GetGamePath()}/winhttp_x64.dll"):
+		os.remove(f"{GetGamePath()}/winhttp_x64.dll")
+	if os.path.exists(f"{GetGamePath()}/winhttp_x86.dll"):
+		os.remove(f"{GetGamePath()}/winhttp_x86.dll")
+	if os.path.exists(f"{GetGamePath()}/winhttp_x64.dll.config"):
+		os.remove(f"{GetGamePath()}/winhttp_x64.dll.config")
+	if os.path.exists(f"{GetGamePath()}/winhttp_x86.dll.config"):
+		os.remove(f"{GetGamePath()}/winhttp_x86.dll.config")
+
+	# Clear installed_mods dictionary
 	installed_mods = {}
+
+	# Update installed_mods.json file
 	UpdateInstalledModsFile()
 
 def GetModsList():
+	"""
+	Get the list of mods.
+
+	This function returns the mods_list, which contains all the Mod objects representing the available mods.
+
+	Args:
+		None
+
+	Returns:
+		list: The list of Mod objects representing the available mods.
+	"""
 	return mods_list
 
 def GetInstalledMods():
+	"""
+	Get the dictionary of installed mods.
+
+	This function returns the installed_mods dictionary, which contains the installed mods as key-value pairs,
+	where the key is the name of the installed mod and the value is the corresponding Mod object.
+
+	Args:
+		None
+
+	Returns:
+		dict: The dictionary of installed mods.
+	"""
 	return installed_mods
