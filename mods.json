@@ -3,5 +3,14 @@
 	[true, "Mimics", "2.6.4", "https://thunderstore.io/package/download/x753/Mimics/2.6.4/", "/BepInEx", "/BepInEx", ["BepInEx"]],
 	[true, "LateCompany", "1.0.18", "https://thunderstore.io/package/download/anormaltwig/LateCompany/1.0.18/", "/BepInEx", "/BepInEx", ["BepInEx"]],
 	[true, "MoreCompany", "1.10.1", "https://thunderstore.io/package/download/notnotnotswipez/MoreCompany/1.10.1/", "/BepInEx", "/BepInEx", ["BepInEx"]],
-	[true, "LethalCasino", "0.5.4", "https://thunderstore.io/package/download/mrgrm7/LethalCasino/0.5.4/", "", "/BepInEx/plugins", ["BepInEx"]]
+	[true, "LethalCasino", "0.5.4", "https://thunderstore.io/package/download/mrgrm7/LethalCasino/0.5.4/", "", "/BepInEx/plugins", ["BepInEx"]],
+	[true, "AlwaysHearActiveWalkies", "1.4.5", "https://thunderstore.io/package/download/Suskitech/AlwaysHearActiveWalkies/1.4.5/", "", "/BepInEx/plugins", ["BepInEx"]],
+
+	[true, "HookGenPatcher", "0.0.5", "https://thunderstore.io/package/download/Evaisa/HookGenPatcher/0.0.5/", "", "/BepInEx", ["BepInEx"]],
+	[true, "LethalLib", "0.16.1", "https://thunderstore.io/package/download/Evaisa/LethalLib/0.16.1/", "", "/BepInEx", ["BepInEx", "HookGenPatcher"]],
+	[true, "Scopophobia", "1.1.5", "https://thunderstore.io/package/download/jaspercreations/Scopophobia/1.1.5/", "", "/BepInEx/plugins", ["BepInEx", "LethalLib"]],
+	[true, "RollingGiant", "2.6.0", "https://thunderstore.io/package/download/NomnomAB/RollingGiant/2.6.0/", "/BepInEx", "/BepInEx", ["BepInEx"]],
+	[true, "FacelessStalker", "1.1.8", "https://thunderstore.io/package/download/Sparble/FacelessStalker/1.1.8/", "", "/BepInEx/plugins", ["BepInEx", "LethalLib"]],
+
+	[false, "HelmetCameras", "2.1.5", "https://thunderstore.io/package/download/RickArg/Helmet_Cameras/2.1.5/", "/BepInEx", "/BepInEx", ["BepInEx"]]
 ]
