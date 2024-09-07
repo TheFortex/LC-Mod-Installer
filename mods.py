@@ -1,7 +1,6 @@
 import requests, zipfile, os, shutil, json, time
 from defs import *
 
-mods_list = []
 installed_mods = []
 
 # [Functions]:
@@ -60,12 +59,11 @@ def UpdateInstalledModsFile():
 	with open(GetGamePath() + "/installed_mods.json", "w") as file:
 		file.write(json.dumps(serializable))
 
-def AppendInstalledMods(mod):
+def RegisterInstalledMod(mod):
 	"""
-	Append the installed mod to the installed_mods dictionary and update the installed_mods.json file.
+	Append the installed mod to the installed_mods list and update the installed_mods.json file.
 
 	Args:
-		name (str): The name of the installed mod.
 		mod (Mod): The Mod object representing the installed mod.
 
 	Returns:
@@ -75,32 +73,31 @@ def AppendInstalledMods(mod):
 	installed_mods.append(mod)
 	UpdateInstalledModsFile()
 
-def PopInstalledMods(name):
+def DeregisterInstalledMod(mod):
 	"""
-	Remove the installed mod from the installed_mods dictionary and update the installed_mods.json file.
+	Remove the installed mod from the installed_mods list and update the installed_mods.json file.
 
 	Args:
-		name (str): The name of the installed mod.
+		mod (Mod): The Mod object representing the installed mod.
 
 	Returns:
 		None
 	"""
 	global installed_mods
-	installed_mods.pop(name)
+	installed_mods.remove(mod)
 	UpdateInstalledModsFile()
 
-def Uninstall(name, files):
+def BulkDelete(lst):
 	"""
-	Uninstall the mod by removing the specified files and directories.
+	removes the specified files and directories.
 
 	Args:
-		name (str): The name of the mod.
-		files (list): A list of file paths to be removed.
+		lst (list): A list of file and directory paths to be removed.
 
 	Returns:
 		None
 	"""
-	for path in files:
+	for path in lst:
 		if os.path.exists(path):
 			if os.path.isdir(path):
 				# If the path is a directory, remove it and all its contents
@@ -192,7 +189,7 @@ class Mod:
 				shutil.rmtree("./TEMPEXTRACT")
 
 				# Append the installed mod to the installed_mods dictionary and mark it as installed
-				AppendInstalledMods(self)
+				RegisterInstalledMod(self)
 				self.installed = True
 
 				break
@@ -217,9 +214,15 @@ class Mod:
 			os.system("pause")
 
 	def Uninstall(self):
+		# Check if the mod is even installed
+		if not self.installed:
+			print(f"Mod '{self}' is not installed")
+			os.system("pause")
+			return
+		
 		# Check if any installed mods depend on this mod
-		for mod in installed_mods.copy().values():
-			if not mod in installed_mods.values():
+		for mod in installed_mods.copy():
+			if not mod in installed_mods:
 				continue
 			if self in mod.dependencies:
 				# Prompt the user to confirm uninstallation if there are dependencies
@@ -228,22 +231,18 @@ class Mod:
 				else:
 					return
 
-		# Check if the mod is not installed
-		if not self.installed:
-			print(f"Mod '{self}' is not installed")
-			os.system("pause")
-			return
-
 		# Uninstall the mod
 		print(f"Uninstalling: {self}")
-		Uninstall(self.name, self.files)
-		PopInstalledMods(f"{self.name} - {self.version}")
+		BulkDelete(self.files)
+		DeregisterInstalledMod(self)
 		self.installed = False
 
 # [Export functions]:
 
 def UpdateList():
-	global mods_list, installed_mods
+	global installed_mods, mod_objs
+	mod_objs = {}
+	installed_mods = []
 
 	while True:
 		try:
@@ -262,9 +261,6 @@ def UpdateList():
 	# Create Mod objects from modsdata and add them to mod_objs if they don't already exist
 	[Mod(*data) for data in modsdata if not mod_objs.get(data[1])]
 
-	# Update mods_list with the values from mod_objs
-	mods_list = mod_objs.values()
-
 	try:
 		# Check if installed_mods.json exists, if not create it
 		if not os.path.exists("./installed_mods.json"):
@@ -276,15 +272,24 @@ def UpdateList():
 			for name, data in json.loads(file.read()).items():
 				version = data["version"]
 				files = data["files"]
-				if name in mod_objs.keys() and mod_objs[name].version == version:
-					# If the mod is in mod_objs and has the same version, mark it as installed
-					installed_mods.append(mod_objs[name])
-					mod_objs[name].files = files
-					mod_objs[name].installed = True
+				obj = mod_objs.get(name)
+				if obj:
+					# If the mod is in mod_objs
+					obj.files = files
+					obj.installed = True
+					if obj.version == version:
+						# and has the same version, mark it as installed
+						installed_mods.append(obj)
+					else:
+						# If the mod has a different version, prompt the user to update it
+						if BooleanPrompt(f"Mod '{name}' is outdated (Current Version: {obj.version}, Installed Version: {version}). Update?"):
+							obj.Uninstall()
+							obj.Install()
 				else:
-					# If the mod is not in mod_objs or has a different version, uninstall it
-					Uninstall(name, files)
-					installed_mods.pop(mod_objs[name])
+					BulkDelete(files)
+		
+		# Update installed_mods.json file
+		UpdateInstalledModsFile()
 	except Exception as e:
 		print("Failed to load installed mods: (If you just updated from version 9, this is normal)")
 		print(e)
@@ -348,7 +353,7 @@ def GetModsList():
 	"""
 	Get the list of mods.
 
-	This function returns the mods_list, which contains all the Mod objects representing the available mods.
+	This function returns a list of all the Mod objects representing the available mods.
 
 	Args:
 		None
@@ -356,19 +361,18 @@ def GetModsList():
 	Returns:
 		list: The list of Mod objects representing the available mods.
 	"""
-	return mods_list
+	return mod_objs.values()
 
 def GetInstalledMods():
 	"""
-	Get the dictionary of installed mods.
+	Get the list of installed mods.
 
-	This function returns the installed_mods dictionary, which contains the installed mods as key-value pairs,
-	where the key is the name of the installed mod and the value is the corresponding Mod object.
+	This function returns the installed_mods list, which contains the installed mods as the corresponding Mod object.
 
 	Args:
 		None
 
 	Returns:
-		dict: The dictionary of installed mods.
+		dict: The list of installed mods.
 	"""
 	return installed_mods
