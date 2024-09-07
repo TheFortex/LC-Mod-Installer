@@ -15,7 +15,7 @@ def Menu(self, menuTitle, options):
 	CurrentMenu = self
 	while True:
 		Clear()
-		pprint(f" -- {menuTitle} -- ", bcolors.BG_BBLUE, bcolors.BLINK) # Print the menu title
+		pprint(f" -- {menuTitle} -- ", bcolors.BG_BBLUE, bcolors.BYELLOW) # Print the menu title
 		print()
 		for key, (title, callback) in options.items():
 			mpprint([key + " - ", bcolors.BOLD, bcolors.BBLUE], title)  # Print each menu option
@@ -85,7 +85,7 @@ def UninstallModsMenu(Fetch=True):
 
 	# Add each installed mod to the menu dictionary
 	for i, mod in enumerate(mods.GetInstalledMods()):
-		menu[str(i+1)] = (mod.name + pformat(f" v{mod.version}", bcolors.GREY) , mod.Uninstall)
+		menu[str(i+1)] = (mod.name + pformat(f" v{mod.version}", bcolors.BLACK) , mod.Uninstall)
 
 	# Call the Menu function with the appropriate arguments
 	Menu(Wrap((UninstallModsMenu, False)), "Uninstall Mods", menu)

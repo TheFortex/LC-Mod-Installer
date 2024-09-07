@@ -25,13 +25,13 @@ def Clear():
 	pprint("         | |  | | (_) | (_| |  | || | | \__ \ || (_| | | |  __/ |           ", bcolors.BRED)
 	pprint("         |_|  |_|\___/ \__,_| |___|_| |_|___/\__\__,_|_|_|\___|_|  			", bcolors.BRED)
 	print()
-	pprint(" |            __ __| |           __|         |               ", bcolors.GREY, bcolors.BLINK)
-	pprint("  _ \  |  |      |     \    -_)  _|  _ \   _| _|   -_) \ \ / ", bcolors.GREY, bcolors.BLINK)
-	pprint("_.__/ \_, |     _|  _| _| \___| _| \___/ _| \__| \___|  _\_\ ", bcolors.GREY, bcolors.BLINK)
-	pprint("      ___/                                                   ", bcolors.GREY, bcolors.BLINK)
+	pprint(" |            __ __| |           __|         |               ", bcolors.WHITE, bcolors.BLINK)
+	pprint("  _ \  |  |      |     \    -_)  _|  _ \   _| _|   -_) \ \ / ", bcolors.WHITE, bcolors.BLINK)
+	pprint("_.__/ \_, |     _|  _| _| \___| _| \___/ _| \__| \___|  _\_\ ", bcolors.WHITE, bcolors.BLINK)
+	pprint("      ___/                                                   ", bcolors.WHITE, bcolors.BLINK)
 	print()
 	pprint(f" Version {__version} ", bcolors.INVERT)
-	mpprint(["Installing to: ", bcolors.BOLD], [os.path.realpath(game_path), bcolors.BLUE])
+	mpprint(["Installing to: ", bcolors.BOLD], [os.path.realpath(game_path), bcolors.BCYAN])
 	print()
 
 def BooleanPrompt(prompt):

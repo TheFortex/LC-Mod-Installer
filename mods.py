@@ -152,7 +152,7 @@ class Mod:
 		Returns:
 			str: The string representation of the Mod object.
 		"""
-		return (self.installed and pformat("[INSTALLED] ", bcolors.BGREEN) or "") + (self.required and pformat("[REQUIRED]", bcolors.BRED, bcolors.UNDERLINE) + " " or "") + self.name + pformat(f" v{self.version}", bcolors.GREY)
+		return (self.installed and pformat("[INSTALLED] ", bcolors.BGREEN) or "") + (self.required and pformat("[REQUIRED]", bcolors.BRED, bcolors.UNDERLINE) + " " or "") + self.name + pformat(f" v{self.version}", bcolors.BLACK)
 
 	def Install(self):
 		# Check if the mod is already installed
