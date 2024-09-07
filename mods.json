@@ -8,9 +8,9 @@
 
 	[true, "HookGenPatcher", "0.0.5", "https://thunderstore.io/package/download/Evaisa/HookGenPatcher/0.0.5/", "", "/BepInEx", ["BepInEx"]],
 	[true, "LethalLib", "0.16.1", "https://thunderstore.io/package/download/Evaisa/LethalLib/0.16.1/", "", "/BepInEx", ["BepInEx", "HookGenPatcher"]],
-	[true, "Scopophobia", "1.1.6", "https://thunderstore.io/package/download/jaspercreations/Scopophobia/1.1.5/", "", "/BepInEx/plugins", ["BepInEx", "LethalLib"]],
+	[true, "Scopophobia", "1.1.5", "https://thunderstore.io/package/download/jaspercreations/Scopophobia/1.1.5/", "", "/BepInEx/plugins", ["BepInEx", "LethalLib"]],
 	[true, "RollingGiant", "2.6.0", "https://thunderstore.io/package/download/NomnomAB/RollingGiant/2.6.0/", "/BepInEx", "/BepInEx", ["BepInEx"]],
 	[true, "FacelessStalker", "1.1.8", "https://thunderstore.io/package/download/Sparble/FacelessStalker/1.1.8/", "", "/BepInEx/plugins", ["BepInEx", "LethalLib"]],
 
-	[false, "HelmetCameras", "2.1.5", "https://thunderstore.io/package/download/RickArg/Helmet_Cameras/2.1.5/", "/BepInEx", "/BepInEx", ["BepInEx"]]
+	[false, "HelmetCameras", "2000.1.5", "https://thunderstore.io/package/download/RickArg/Helmet_Cameras/2.1.5/", "/BepInEx", "/BepInEx", ["BepInEx"]]
 ]
