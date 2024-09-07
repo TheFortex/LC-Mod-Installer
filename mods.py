@@ -269,35 +269,35 @@ def UpdateList():
 
 		# Load installed mods from installed_mods.json
 		with open(GetGamePath() + "/installed_mods.json", "r") as file:
+			# Loop through all installed mods
 			for name, data in json.loads(file.read()).items():
 				version = data["version"]
 				files = data["files"]
 				obj = mod_objs.get(name)
 				if obj:
-					# If the mod is in mod_objs
+					# If the mod is available, mark it as installed
 					obj.files = files
 					obj.installed = True
-					if obj.version == version:
-						# and has the same version, mark it as installed
-						installed_mods.append(obj)
-					else:
-						# If the mod has a different version, prompt the user to update it
+					installed_mods.append(obj)
+					print(f"Loaded installed mod: {name} v{obj.version} (installed v{version})")
+
+					# If the mod has a different version, prompt the user to update it
+					if obj.version != version:
 						if BooleanPrompt(f"Mod '{name}' is outdated (Current Version: {obj.version}, Installed Version: {version}). Update?"):
 							obj.Uninstall()
 							obj.Install()
 				else:
+					# If the mod is not available, uninstall it
 					BulkDelete(files)
 		
 		# Update installed_mods.json file
 		UpdateInstalledModsFile()
 	except Exception as e:
-		print("Failed to load installed mods: (If you just updated from version 9, this is normal)")
+		print("Failed to load installed mods:")
 		print(e)
-		print("\nWill uninstall all mods...")
-		os.system("pause")
-
-		# If there was an error loading installed mods, reset installed_mods
-		UninstallAllMods()
+		
+		if BooleanPrompt("Uninstall all mods? (Recommended)"):
+			UninstallAllMods()
 		pass
 
 def UninstallAllMods():
