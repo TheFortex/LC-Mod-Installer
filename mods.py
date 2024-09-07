@@ -150,7 +150,7 @@ class Mod:
 		Returns:
 			str: The string representation of the Mod object.
 		"""
-		return (self.installed and "[INSTALLED] " or "") + (self.required and "[REQUIRED] " or "") + f"{self.name} {self.version}"
+		return (self.installed and "[INSTALLED] " or "") + (self.required and "[REQUIRED] " or "") + f"{self.name} v{self.version}"
 
 	def Install(self):
 		# Check if the mod is already installed
