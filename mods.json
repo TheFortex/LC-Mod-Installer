@@ -12,5 +12,5 @@
 	[true, "RollingGiant", "2.6.0", "https://thunderstore.io/package/download/NomnomAB/RollingGiant/2.6.0/", "/BepInEx", "/BepInEx", ["BepInEx"]],
 	[true, "FacelessStalker", "1.1.8", "https://thunderstore.io/package/download/Sparble/FacelessStalker/1.1.8/", "", "/BepInEx/plugins", ["BepInEx", "LethalLib"]],
 
-	[false, "HelmetCameras", "2000.1.5", "https://thunderstore.io/package/download/RickArg/Helmet_Cameras/2.1.5/", "/BepInEx", "/BepInEx", ["BepInEx"]]
+	[false, "HelmetCameras", "2.1.5", "https://thunderstore.io/package/download/RickArg/Helmet_Cameras/2.1.5/", "/BepInEx", "/BepInEx", ["BepInEx"]]
 ]
