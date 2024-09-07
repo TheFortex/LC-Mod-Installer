@@ -2,7 +2,7 @@ import requests, zipfile, os, shutil, json, time
 from defs import *
 
 mods_list = []
-installed_mods = {}
+installed_mods = []
 
 # [Functions]:
 
@@ -56,11 +56,11 @@ def UpdateInstalledModsFile():
 	Returns:
 		None
 	"""
-	serializable = {name: mod.files for name, mod in installed_mods.items()}
+	serializable = {mod.name: {"version": mod.version, "files": mod.files} for mod in installed_mods}
 	with open(GetGamePath() + "/installed_mods.json", "w") as file:
 		file.write(json.dumps(serializable))
 
-def AppendInstalledMods(name, mod):
+def AppendInstalledMods(mod):
 	"""
 	Append the installed mod to the installed_mods dictionary and update the installed_mods.json file.
 
@@ -72,7 +72,7 @@ def AppendInstalledMods(name, mod):
 		None
 	"""
 	global installed_mods
-	installed_mods[name] = mod
+	installed_mods.append(mod)
 	UpdateInstalledModsFile()
 
 def PopInstalledMods(name):
@@ -192,7 +192,7 @@ class Mod:
 				shutil.rmtree("./TEMPEXTRACT")
 
 				# Append the installed mod to the installed_mods dictionary and mark it as installed
-				AppendInstalledMods(f"{self.name} - {self.version}", self)
+				AppendInstalledMods(self)
 				self.installed = True
 
 				break
@@ -273,24 +273,26 @@ def UpdateList():
 
 		# Load installed mods from installed_mods.json
 		with open(GetGamePath() + "/installed_mods.json", "r") as file:
-			for id, files in json.loads(file.read()).items():
-				name, version = id.split(" - ")
+			for name, data in json.loads(file.read()).items():
+				version = data["version"]
+				files = data["files"]
 				if name in mod_objs.keys() and mod_objs[name].version == version:
 					# If the mod is in mod_objs and has the same version, mark it as installed
-					installed_mods[name] = mod_objs[name]
+					installed_mods.append(mod_objs[name])
 					mod_objs[name].files = files
 					mod_objs[name].installed = True
 				else:
 					# If the mod is not in mod_objs or has a different version, uninstall it
 					Uninstall(name, files)
-					installed_mods.pop(name)
+					installed_mods.pop(mod_objs[name])
 	except Exception as e:
-		print("Failed to load installed mods:")
+		print("Failed to load installed mods: (If you just updated from version 9, this is normal)")
 		print(e)
+		print("\nWill uninstall all mods...")
 		os.system("pause")
 
 		# If there was an error loading installed mods, reset installed_mods
-		installed_mods = {}
+		UninstallAllMods()
 		pass
 
 def UninstallAllMods():
@@ -337,7 +339,7 @@ def UninstallAllMods():
 		os.remove(f"{GetGamePath()}/winhttp_x86.dll.config")
 
 	# Clear installed_mods dictionary
-	installed_mods = {}
+	installed_mods = []
 
 	# Update installed_mods.json file
 	UpdateInstalledModsFile()
