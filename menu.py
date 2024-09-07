@@ -52,14 +52,6 @@ def InstallModsMenu(Fetch=True):
 	# Clear the console screen
 	Clear()
 
-	# Check if there are already mods installed
-	# if os.path.exists(f"{game_path}/BepInEx"):
-	#     print("Warning: There are already mods installed. It is recommended to uninstall them first.")
-	#     if not BooleanPrompt("Do you want to continue?"): return MainMenu()
-
-	# Clear the console screen
-	Clear()
-
 	# Fetch the mod list if Fetch is True
 	if Fetch:
 		print("Fetching mod list...")
@@ -79,22 +71,25 @@ def InstallModsMenu(Fetch=True):
 	# Call the Menu function with the appropriate arguments
 	Menu(Wrap((InstallModsMenu, False)), "Install Mods", menu)
 
-def UninstallModsMenu():
+def UninstallModsMenu(Fetch=True):
 	Clear()
 
-	print("Reading installed mods...")
+	if Fetch:
+		print("Fetching mod list...")
+		mods.UpdateList()
+
+	# Create the menu dictionary
 	menu = {
 		"..": ("Back", MainMenu),
 		"all": ("Uninstall all mods", Wrap((mods.UninstallAllMods,), (MainMenu,)))
 	}
 
-	i = 1
-	for name, mod in mods.GetInstalledMods().items():
-		menu[str(i)] = (f"{mod.name} {mod.version}", mod.Uninstall)
-		i += 1
+	# Add each installed mod to the menu dictionary
+	for i, mod in enumerate(mods.GetInstalledMods()):
+		menu[str(i+1)] = (f"{mod.name} v{mod.version}", mod.Uninstall)
 
 	# Call the Menu function with the appropriate arguments
-	Menu(UninstallModsMenu, "Uninstall Mods", menu)
+	Menu(Wrap((UninstallModsMenu, False)), "Uninstall Mods", menu)
 
 def Exit():
 	sys.exit()
