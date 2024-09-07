@@ -4,6 +4,8 @@ from tkinter import filedialog
 from defs import *
 from globals import bad_input
 import mods
+from bcolors import pprint, mpprint, pformat
+import bcolors
 
 game_path = SetGamePath()
 CurrentMenu = None
@@ -13,9 +15,10 @@ def Menu(self, menuTitle, options):
 	CurrentMenu = self
 	while True:
 		Clear()
-		print(f"-- {menuTitle} --\n")  # Print the menu title
+		pprint(f" -- {menuTitle} -- ", bcolors.BG_BBLUE, bcolors.BLINK) # Print the menu title
+		print()
 		for key, (title, callback) in options.items():
-			print(f"{key} - {title}")  # Print the menu options
+			mpprint([key + " - ", bcolors.BOLD, bcolors.BBLUE], title)  # Print each menu option
 		
 		response = input("\n")  # Get user input
 		if response in options.keys():  # Check if the input is a valid option
@@ -28,11 +31,7 @@ def SetGamePathMenu():
 	global game_path
 
 	os.system("cls")
-	print("Please browse to the game directory.")
-	print("Note: If you place this script in the game directory, you can skip this step")
-	print()
-
-	os.system("pause")
+	print("Please select game executable.")
 	root = tk.Tk()
 	root.withdraw()
 
@@ -42,7 +41,7 @@ def SetGamePathMenu():
 		if os.path.exists(os.path.join(game_path, "Lethal Company.exe")):
 			break
 		else:
-			print("The selected directory does not contain the game.")
+			print('Invalid Selection, Please select the "Lethal Company.exe" file.')
 			os.system("pause")
 	
 	# Set the game path
@@ -86,7 +85,7 @@ def UninstallModsMenu(Fetch=True):
 
 	# Add each installed mod to the menu dictionary
 	for i, mod in enumerate(mods.GetInstalledMods()):
-		menu[str(i+1)] = (f"{mod.name} v{mod.version}", mod.Uninstall)
+		menu[str(i+1)] = (mod.name + pformat(f" v{mod.version}", bcolors.GREY) , mod.Uninstall)
 
 	# Call the Menu function with the appropriate arguments
 	Menu(Wrap((UninstallModsMenu, False)), "Uninstall Mods", menu)

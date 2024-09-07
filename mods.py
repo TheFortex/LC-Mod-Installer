@@ -1,5 +1,7 @@
 import requests, zipfile, os, shutil, json, time
 from defs import *
+from bcolors import pformat
+import bcolors
 
 installed_mods = []
 
@@ -150,7 +152,7 @@ class Mod:
 		Returns:
 			str: The string representation of the Mod object.
 		"""
-		return (self.installed and "[INSTALLED] " or "") + (self.required and "[REQUIRED] " or "") + f"{self.name} v{self.version}"
+		return (self.installed and pformat("[INSTALLED] ", bcolors.BGREEN) or "") + (self.required and pformat("[REQUIRED]", bcolors.BRED, bcolors.UNDERLINE) + " " or "") + self.name + pformat(f" v{self.version}", bcolors.GREY)
 
 	def Install(self):
 		# Check if the mod is already installed
