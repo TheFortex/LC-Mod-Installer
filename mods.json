@@ -216,5 +216,75 @@
         "dependencies": [
             "BepInEx"
         ]
+    },
+    "FlashlightToggle": {
+        "required": false,
+        "version": "1.5.0",
+        "url": "https://thunderstore.io/package/download/Renegades/FlashlightToggle/1.5.0/",
+        "extract_from": "/",
+        "extract_to": "/BepInEx/plugins",
+        "dependencies": [
+            "BepInEx",
+            "LethalCompany_InputUtils"
+        ]
+    },
+    "LetMeLookDown": {
+        "required": false,
+        "version": "1.0.2",
+        "url": "https://thunderstore.io/package/download/FlipMods/LetMeLookDown/1.0.2/",
+        "extract_from": "/",
+        "extract_to": "/BepInEx/plugins",
+        "dependencies": [
+            "BepInEx"
+        ]
+    },
+    "WalkieUse": {
+        "required": false,
+        "version": "1.5.0",
+        "url": "https://thunderstore.io/package/download/Renegades/WalkieUse/1.5.0/",
+        "extract_from": "/",
+        "extract_to": "/BepInEx/plugins",
+        "dependencies": [
+            "BepInEx",
+            "LethalCompany_InputUtils"
+        ]
+    },
+    "BetterItemScan": {
+        "required": false,
+        "version": "3.0.2",
+        "url": "https://thunderstore.io/package/download/PopleZoo/BetterItemScan/3.0.2/",
+        "extract_from": "/",
+        "extract_to": "/BepInEx/plugins",
+        "dependencies": []
+    },
+    "LCMaxSoundsFix": {
+        "required": false,
+        "version": "1.2.0",
+        "url": "https://thunderstore.io/package/download/Hardy/LCMaxSoundsFix/1.2.0/",
+        "extract_from": "/",
+        "extract_to": "/BepInEx/plugins",
+        "dependencies": [
+            "BepInEx"
+        ]
+    },
+    "CullFactory": {
+        "required": false,
+        "version": "1.3.14",
+        "url": "https://thunderstore.io/package/download/fumiko/CullFactory/1.3.14/",
+        "extract_from": "/",
+        "extract_to": "/BepInEx/plugins",
+        "dependencies": [
+            "BepInEx"
+        ]
+    },
+    "Hold_Scan_Button": {
+        "required": false,
+        "version": "1.1.2",
+        "url": "https://thunderstore.io/package/download/FutureSavior/Hold_Scan_Button/1.1.2/",
+        "extract_from": "/BepInEx",
+        "extract_to": "/BepInEx",
+        "dependencies": [
+            "BepInEx"
+        ]
     }
 }
