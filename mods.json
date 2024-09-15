@@ -206,5 +206,15 @@
             "BepInEx",
             "LCSoundTool"
         ]
+    },
+    "Skinwalkers": {
+        "required": false,
+        "version": "5.0.0",
+        "url": "https://thunderstore.io/package/download/RugbugRedfern/Skinwalkers/5.0.0/",
+        "extract_from": "/BepInEx",
+        "extract_to": "/BepInEx",
+        "dependencies": [
+            "BepInEx"
+        ]
     }
 }
