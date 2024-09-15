@@ -113,7 +113,7 @@ def BulkDelete(lst):
 mod_objs = {}
 
 class Mod:
-	def __init__(self, required, name, version, url, extract_from, extract_to, dependencies):
+	def __init__(self, name, data):
 		"""
 		Initialize a Mod object with the given parameters.
 
@@ -129,14 +129,19 @@ class Mod:
 		Returns:
 			None
 		"""
-		self.required = required
 		self.name = name
-		self.version = version
-		self.extract_from = extract_from
-		self.extract_to = extract_to
-		self.url = url
+		self.required = data["required"]
+		self.version = data["version"]
+		self.extract_from = data["extract_from"]
+		self.extract_to = data["extract_to"]
+		self.url = data["url"]
 		self.installed = False
-		self.dependencies = [mod_objs[dependency] for dependency in dependencies]
+		self.dependencies = [mod_objs.get(dependency, dependency) for dependency in data["dependencies"]]
+
+		for mod in mod_objs.values():
+			if self.name in mod.dependencies:
+				mod.dependencies.pop(mod.dependencies.index(self.name))
+				mod.dependencies.append(self)
 
 		mod_objs[name] = self
 
@@ -261,7 +266,7 @@ def UpdateList():
 			time.sleep(3)
 
 	# Create Mod objects from modsdata and add them to mod_objs if they don't already exist
-	[Mod(*data) for data in modsdata if not mod_objs.get(data[1])]
+	[Mod(name, data) for name, data in modsdata.items()]
 
 	try:
 		# Check if installed_mods.json exists, if not create it
