@@ -105,7 +105,7 @@ def Start():
 	try:
 		# Try to get the game path from the Windows registry
 		# Steam Path Registry key: Computer\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Valve\Steam -> InstallPath
-		game_path = winreg.QueryValueEx(winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\WOW6432Node\Valve\Steam"), "InstallPath")[0]
+		game_path = winreg.QueryValueEx(winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\\WOW6432Node\\Valve\\Steam"), "InstallPath")[0]
 		# Construct the full game path
 		game_path = os.path.join(game_path, "steamapps", "common", "Lethal Company")
 		# Check if the game executable exists in the game path
