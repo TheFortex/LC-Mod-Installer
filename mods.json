@@ -195,5 +195,16 @@
             "LethalCompany_InputUtils",
             "Interactive_Terminal_API"
         ]
+    },
+    "PowerOfChrist": {
+        "required": false,
+        "version": "1.0.1",
+        "url": "https://thunderstore.io/package/download/LemoCoffee/PowerOfChrist/1.0.1/",
+        "extract_from": "/",
+        "extract_to": "/BepInEx/plugins",
+        "dependencies": [
+            "BepInEx",
+            "LCSoundTool"
+        ]
     }
 }
