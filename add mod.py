@@ -148,6 +148,19 @@ def install_mod(name, mod, mod_path):
 	with open(f"{game_path}/installed_mods.json", 'w') as f:
 		json.dump(installed_mods, f, indent=4)
 
+def commit_and_push():
+	# Check if the user has git installed
+	if os.system("git --version") != 0:
+		print("Git not found")
+		return
+	
+	# Commit the changes to mods.json
+	os.system("git add mods.json")
+	os.system("git commit -m \"Add mod\"")
+
+	# Push the changes to the remote repository
+	os.system("git push")
+
 def clean_up():
 	if os.path.exists(f"./TEMPDOWNLOAD.zip"): os.remove(f"./TEMPDOWNLOAD.zip")
 	if os.path.exists(f"./TEMPEXTRACT"): shutil.rmtree("./TEMPEXTRACT")
@@ -183,6 +196,8 @@ def main():
 		return
 	
 	add_mod(name, mod)
+	print()
+	BooleanPrompt("Commit and push changes to mods.json?") and commit_and_push()
 	print()
 	BooleanPrompt("Install the mod?") and install_mod(name, mod, mod_path)
 	clean_up()
