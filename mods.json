@@ -286,5 +286,15 @@
         "dependencies": [
             "BepInEx"
         ]
+    },
+    "JetpackWarning": {
+        "required": false,
+        "version": "2.2.0",
+        "url": "https://thunderstore.io/package/download/Hamunii/JetpackWarning/2.2.0/",
+        "extract_from": "/",
+        "extract_to": "/BepInEx/plugins",
+        "dependencies": [
+            "BepInEx"
+        ]
     }
 }
