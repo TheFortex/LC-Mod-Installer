@@ -679,5 +679,26 @@
             "BepInEx",
             "LethalBestiary"
         ]
+    },
+    "NuclearLibrary": {
+        "required": true,
+        "version": "1.0.7",
+        "url": "https://thunderstore.io/package/download/NiceHairs/NuclearLibrary/1.0.7/",
+        "extract_from": "/BepInEx",
+        "extract_to": "/BepInEx",
+        "dependencies": [
+            "BepInEx"
+        ]
+    },
+    "Symbiosis": {
+        "required": true,
+        "version": "1.0.8",
+        "url": "https://thunderstore.io/package/download/NiceHairs/Symbiosis/1.0.8/",
+        "extract_from": "/BepInEx",
+        "extract_to": "/BepInEx",
+        "dependencies": [
+            "BepInEx",
+            "NuclearLibrary"
+        ]
     }
 }
