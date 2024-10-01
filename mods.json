@@ -196,27 +196,6 @@
             "Interactive_Terminal_API"
         ]
     },
-    "PowerOfChrist": {
-        "required": false,
-        "version": "1.0.1",
-        "url": "https://thunderstore.io/package/download/LemoCoffee/PowerOfChrist/1.0.1/",
-        "extract_from": "/",
-        "extract_to": "/BepInEx/plugins",
-        "dependencies": [
-            "BepInEx",
-            "LCSoundTool"
-        ]
-    },
-    "Skinwalkers": {
-        "required": false,
-        "version": "5.0.0",
-        "url": "https://thunderstore.io/package/download/RugbugRedfern/Skinwalkers/5.0.0/",
-        "extract_from": "/BepInEx",
-        "extract_to": "/BepInEx",
-        "dependencies": [
-            "BepInEx"
-        ]
-    },
     "FlashlightToggle": {
         "required": false,
         "version": "1.5.0",
